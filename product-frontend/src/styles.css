@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Optional: Import a custom font like Inter if you want to use it.
+  You'd typically link this in index.html or import it here if using a CSS import.
+*/
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap'); */
+
+html, body {
+  height: 100%; /* Ensures the html and body elements take up the full viewport height */
+  margin: 0;   /* Removes default browser margin */
+  /* Setting a modern, clean font. "Inter" is a popular choice often used with Tailwind. */
+  font-family: "Inter", sans-serif; /* Apply globally */
+}
+
+/* Apply the background gradient and text color globally here */
+body {
+  background: linear-gradient(to bottom right, #eff6ff, #f3f4f6); /* bg-gradient-to-br from-blue-50 to-gray-100 */
+  color: #333; /* text-gray-800 */
+}

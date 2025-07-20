@@ -1,0 +1,195 @@
+<!-- Coding Challenge Modal -->
+<div *ngIf="showChallengeModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-xl shadow-2xl p-4 sm:p-8 max-w-lg w-full text-center max-h-[80vh] overflow-y-auto mx-2">
+    <h2 class="text-2xl font-bold mb-4 text-blue-700">This is a coding challenge</h2>
+    <p class="mb-4 text-gray-700">
+      This project demonstrates a full-stack application for managing products, featuring a RESTful API backend and a
+      responsive web frontend.
+    </p>
+    <div class="mb-4 text-left text-gray-700">
+      <h3 class="font-semibold mb-1">Purpose:</h3>
+      <p class="mb-2">The core purpose is to provide a simple CRUD (Create, Read, Update, Delete) interface for product
+        records. This allows users to add new products, view existing ones, modify their details, and remove them from
+        the database.</p>
+      <h3 class="font-semibold mb-1">Tools Used:</h3>
+      <div class="mb-2">
+        <span class="font-semibold">Backend:</span>
+        <ul class="list-disc list-inside ml-4">
+          <li><span class="font-semibold">Rust:</span> The high-performance, memory-safe programming language.</li>
+          <li><span class="font-semibold">Actix-web:</span> A powerful and fast web framework for Rust, handling HTTP
+            requests and responses.</li>
+          <li><span class="font-semibold">SQLite:</span> A lightweight, file-based relational database used for data
+            persistence.</li>
+          <li><span class="font-semibold">Rusqlite:</span> A Rust binding for SQLite, providing the interface to
+            interact with the database.</li>
+          <li><span class="font-semibold">thiserror & lazy_static:</span> Rust crates for robust error handling and lazy
+            initialization of global resources (like the database connection).</li>
+          <li><span class="font-semibold">actix-cors:</span> Middleware for Actix-web to enable Cross-Origin Resource
+            Sharing, allowing the frontend to securely communicate with the backend from a different origin.</li>
+        </ul>
+      </div>
+      <div>
+        <span class="font-semibold">Frontend:</span>
+        <ul class="list-disc list-inside ml-4">
+          <li><span class="font-semibold">Angular:</span> A popular TypeScript-based framework for building dynamic
+            single-page applications.</li>
+          <li><span class="font-semibold">TypeScript:</span> A superset of JavaScript that adds static typing, improving
+            code quality and maintainability.</li>
+          <li><span class="font-semibold">Tailwind CSS:</span> A utility-first CSS framework used for rapidly styling
+            the user interface, ensuring responsiveness and a modern look.</li>
+          <li><span class="font-semibold">Angular HttpClient:</span> Angular's built-in module for making HTTP requests
+            to the backend API.</li>
+          <li><span class="font-semibold">RxJS:</span> Used for reactive programming, handling asynchronous operations
+            (like HTTP responses) with Observables.</li>
+        </ul>
+      </div>
+    </div>
+    <button (click)="showChallengeModal = false"
+      class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow transition">Continue</button>
+  </div>
+</div>
+
+<!-- Alert Modal Popup -->
+<div *ngIf="alertMessage" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+  <div class="bg-white rounded-xl shadow-2xl px-4 sm:px-8 py-6 max-w-sm w-full flex flex-col items-center border-2 mx-2"
+    [ngClass]="{
+      'border-green-400': alertColor === 'green',
+      'border-red-400': alertColor === 'red'
+    }">
+    <span class="font-semibold text-lg mb-4" [ngClass]="{
+      'text-green-700': alertColor === 'green',
+      'text-red-700': alertColor === 'red'
+    }">{{ alertMessage }}</span>
+    <button (click)="alertMessage = ''" [ngClass]="{
+        'bg-green-600 hover:bg-green-800': alertColor === 'green',
+        'bg-red-600 hover:bg-red-800': alertColor === 'red'
+      }" class="mt-2 text-white font-bold py-2 px-8 rounded-lg shadow transition focus:outline-none">OK</button>
+  </div>
+</div>
+
+<div class="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-gray-100 font-inter">
+  <!-- Header -->
+  <header class="bg-blue-700 text-white shadow-lg sticky top-0 z-10">
+    <div class="container mx-auto px-2 sm:px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">My Products</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto px-1 sm:px-4 py-4 sm:py-8 max-w-5xl relative">
+    <!-- Product List -->
+    <section class="section mb-12 bg-white/80 p-2 sm:p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-blue-800">Product List</h2>
+      </div>
+      <div *ngIf="products.length === 0" class="text-gray-500 italic">There are no products.</div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let product of products"
+          class="bg-white rounded-xl shadow-lg border p-4 sm:p-6 flex flex-col gap-2 hover:shadow-2xl transition">
+          <div class="flex items-center justify-between">
+            <span class="text-base sm:text-lg font-bold text-blue-700">{{ product.name }}</span>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">ID: {{ product.id }}</span>
+          </div>
+          <div class="text-gray-700 break-words">{{ product.description }}</div>
+          <div class="flex justify-between items-center mt-2">
+            <span class="font-semibold text-green-700">${{ product.price | number: '1.2-2' }}</span>
+            <span class="text-sm text-gray-500">Stock: {{ product.stock }}</span>
+          </div>
+          <div class="flex gap-2 mt-4">
+            <button (click)="openUpdateModal(product)"
+              class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-4 rounded-lg shadow transition">Update</button>
+            <button (click)="deleteProduct(product.id)"
+              class="bg-red-600 hover:bg-red-800 text-white font-bold py-1 px-4 rounded-lg shadow transition">Delete</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Create Button -->
+    <button (click)="showCreateModal = true"
+      class="fixed right-4 bottom-4 sm:right-10 sm:bottom-10 z-40 bg-blue-600 hover:bg-blue-800 text-white rounded-full shadow-lg w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center text-3xl transition focus:outline-none">
+      +
+    </button>
+
+    <!-- Create Product Modal -->
+    <div *ngIf="showCreateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white rounded-xl shadow-2xl p-4 sm:p-8 max-w-md w-full mx-2">
+        <h2 class="text-lg sm:text-xl font-bold text-blue-800 mb-6">Create New Product</h2>
+        <form (ngSubmit)="createProduct()" autocomplete="off">
+          <div class="form-group mb-4">
+            <label for="name">Product Name</label>
+            <input id="name" type="text" [(ngModel)]="newProduct.name" name="name" required class="input" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="price">Price</label>
+            <input id="price" type="number" [(ngModel)]="newProduct.price" name="price" min="0" required
+              class="input" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="description">Description</label>
+            <textarea id="description" [(ngModel)]="newProduct.description" name="description" rows="2" required
+              class="input"></textarea>
+          </div>
+          <div class="form-group mb-6">
+            <label for="stock">Stock Quantity</label>
+            <input id="stock" type="number" [(ngModel)]="newProduct.stock" name="stock" min="0" required
+              class="input" />
+          </div>
+          <div class="flex justify-end gap-2">
+            <button type="button" (click)="showCreateModal = false"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg shadow transition">Cancel</button>
+            <button type="submit"
+              class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow transition">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div *ngIf="showUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white rounded-xl shadow-2xl p-4 sm:p-8 max-w-md w-full mx-2">
+        <h2 class="text-lg sm:text-xl font-bold text-blue-800 mb-6">Update Product</h2>
+        <form (ngSubmit)="updateProduct()" autocomplete="off">
+          <div class="form-group mb-4">
+            <label for="updateName">Name</label>
+            <input id="updateName" type="text" [(ngModel)]="updateProductData.name" name="updateName" required
+              class="input" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="updatePrice">Price</label>
+            <input id="updatePrice" type="number" [(ngModel)]="updateProductData.price" name="updatePrice" min="0"
+              required class="input" />
+          </div>
+          <div class="form-group mb-4">
+            <label for="updateDescription">Description</label>
+            <textarea id="updateDescription" [(ngModel)]="updateProductData.description" name="updateDescription"
+              rows="2" required class="input"></textarea>
+          </div>
+          <div class="form-group mb-6">
+            <label for="updateStock">Stock</label>
+            <input id="updateStock" type="number" [(ngModel)]="updateProductData.stock" name="updateStock" min="0"
+              required class="input" />
+          </div>
+          <div class="flex justify-end gap-2">
+            <button type="button" (click)="showUpdateModal = false"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg shadow transition">Cancel</button>
+            <button type="submit"
+              class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg shadow transition">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-6 text-center text-sm mt-12 shadow-inner">
+    &copy; 2025 Product Dashboard. All rights reserved.
+  </footer>
+</div>
+
+<!-- Tailwind utility for input -->
+<style>
+  .input {
+    @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition;
+  }
+</style>
