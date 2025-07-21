@@ -6,32 +6,19 @@ This repository contains a full-stack application designed for managing product 
 Table of Contents
 -----------------
 
-*   [Project Overview](https://www.google.com/search?q=#project-overview)
-    
-*   [Coding Challenge Requirements](https://www.google.com/search?q=#coding-challenge-requirements)
-    
-*   [Features](https://www.google.com/search?q=#features)
-    
-*   [Application Screenshots](https://www.google.com/search?q=#application-screenshots)
-    
-*   [Technologies Used](https://www.google.com/search?q=#technologies-used)
-    
-*   [Running the Application](https://www.google.com/search?q=#running-the-application)
-    
-    *   [Prerequisites](https://www.google.com/search?q=#prerequisites)
-        
-    *   [Cloning the Repository](https://www.google.com/search?q=#cloning-the-repository)
-        
-    *   [Backend Setup (Rust)](https://www.google.com/search?q=#backend-setup-rust)
-        
-    *   [Frontend Setup (Angular)](https://www.google.com/search?q=#frontend-setup-angular)
-        
-    
-*   [Coding Challenge Specifics](https://www.google.com/search?q=#coding-challenge-specifics)
-    
-*   [Future Enhancements](https://www.google.com/search?q=#future-enhancements)
-    
-*   [License](https://www.google.com/search?q=#license)
+1. [Project Overview](#project-overview)
+2. [Coding Challenge Requirements](#coding-challenge-requirements)
+3. [Features](#features)
+4. [Application Screenshots](#application-screenshots)
+5. [Technologies Used](#technologies-used)
+6. [Running the Application](#running-the-application)
+   1. [Prerequisites](#prerequisites)
+   2. [Cloning the Repository](#cloning-the-repository)
+   3. [Backend Setup (Rust)](#backend-setup-rust)
+   4. [Frontend Setup (Angular)](#frontend-setup-angular)
+7. [Coding Challenge Specifics](#coding-challenge-specifics)
+8. [Future Enhancements](#future-enhancements)
+9. [License](#license)
     
 
 Project Overview
